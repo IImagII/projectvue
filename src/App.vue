@@ -1,38 +1,50 @@
 <template>
    <div>
-      <div>
-         <button @click="addLike">Like</button>
-         <button @click="addDisLike">Dislike</button>
-      </div>
-
-      <div>
-         Количество лайков:<strong>{{ likes }}</strong>
-      </div>
-      <div>
-         Количество дизлайков:<strong>{{ dislikes }}</strong>
+      <div class="all">
+         <PostForm @create="createPost" />
+         <PostList :posts="posts" />
       </div>
    </div>
 </template>
 
 <script>
+import PostForm from '@/components/PostForm.vue'
+import PostList from '@/components/PostList.vue'
+
 export default {
+   components: {
+      PostForm,
+      PostList,
+   },
    data() {
       return {
-         likes: 0,
-         dislikes: 0,
+         posts: [
+            { id: 1, title: 'JavaScript', body: 'Описание поста' },
+            { id: 2, title: 'Java', body: 'Описание поста 2' },
+         ],
       }
    },
    methods: {
-      addLike() {
-         this.likes += 1
-      },
-      addDisLike() {
-         this.dislikes += 1
+      createPost(post) {
+         this.posts.push(post)
       },
    },
 }
 </script>
 
-<style></style>
+<style>
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+.all {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+</style>
 
 //single file component
