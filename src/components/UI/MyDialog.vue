@@ -6,19 +6,23 @@
    </div>
 </template>
 <script>
+import toggleMixin from '@/mixins/toggleMixin'
+
 export default {
    name: 'MyDialog',
-   props: {
-      show: {
-         type: Boolean,
-         default: false,
-      },
-   },
-   methods: {
-      hideDialog() {
-         this.$emit('update:show', false)
-      },
-   },
+   mixins: [toggleMixin],
+   mounted() {},
+   // props: {
+   //    show: {
+   //       type: Boolean,
+   //       default: false,
+   //    },
+   // },
+   // methods: {
+   //    hideDialog() {
+   //       this.$emit('update:show', false) // удалил из-за использования миксина тоесть миксин все это заменил
+   //    },
+   // },
 }
 </script>
 <style scoped>
