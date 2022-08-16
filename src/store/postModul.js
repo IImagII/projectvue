@@ -1,4 +1,6 @@
-export default postModule = {
+import axios from 'axios'
+
+const postModul = {
    state: () => ({
       posts: [],
       isPostsLoading: false,
@@ -20,7 +22,7 @@ export default postModule = {
    }),
    getters: {
       sortedPosts(state) {
-         return [state.posts].sort((post1, post2) => post1[state.selectedSort]?.localeCompare(post2[state.selectedSort]))
+         return [...state.posts].sort((post1, post2) => post1[state.selectedSort]?.localeCompare(post2[state.selectedSort]))
       },
       sortedAndSearchedPosts(state, getters) {
          return getters.sortedPosts.filter((post) => post.title.toLowerCase().includes(state.searchQuery.toLowerCase()))
@@ -56,28 +58,31 @@ export default postModule = {
                   _limit: state.limit, //this.limit
                },
             })
-            commit('setTotalPages'.Math.ceil(response.headers['x-total-count'] / state.limit)) // this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
+            commit('setTotalPages', Math.ceil(response.headers['x-total-count'] / state.limit)) // this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
             commit('setPosts', response.data) //this.posts = response.data
          } catch (err) {
-            alert('Ошибка')
+            alert(err)
          } finally {
             commit('setLoading', false) // this.isPostsLoading = false
          }
       },
-      async loadMorePost() {
+      async loadMorePost({ state, commit }) {
          try {
-            commit('setPage', (state.page += 1)) //this.page += 1
+            commit('setPage', state.page + 1) //this.page += 1
             const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
                params: {
                   _page: state.page, // this.page
                   _limit: state.limit, //this.limit
                },
             })
-            commit('setTotalPages'.Math.ceil(response.headers['x-total-count'] / this.limit)) // this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
-            commit('setPosts', [...this.posts, ...response.data]) // this.posts = [...this.posts, ...response.data]
+            commit('setTotalPages', Math.ceil(response.headers['x-total-count'] / state.limit)) // this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
+            commit('setPosts', [...state.posts, ...response.data]) // this.posts = [...this.posts, ...response.data]
          } catch (err) {
-            alert('Ошибка')
+            console.log(err)
          }
       },
    },
+   namespaced: true,
 }
+
+export default postModul

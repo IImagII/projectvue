@@ -1,8 +1,9 @@
 import { createStore } from 'vuex'
-import { postModule } from '@/store/postModule'
+import postModul from './postModul'
 
-export default createStore({
+const store = createStore({
    modules: {
-      post: postModule,
+      post: postModul,
    },
 })
+export default store

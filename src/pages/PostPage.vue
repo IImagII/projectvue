@@ -14,20 +14,6 @@
       <PostList :posts="sortedAndSearchedPosts" @remove="removePost" v-if="!isPostsLoading" />
       <div v-else style="color: red">Идет загрузка...</div>
       <div v-intersection="loadMorePost" class="observer"></div>
-
-      <!-- <div class="page__wrapper">
-            <div
-               v-for="pageNumber in totalPages"
-               :key="pageNumber"
-               class="page"
-               :class="{
-                  'current-page': page === pageNumber,
-               }"
-               @click="changePage(pageNumber)"
-            >
-               {{ pageNumber }}
-            </div>
-         </div> -->
    </div>
 </template>
 
@@ -121,9 +107,9 @@ export default {
       this.fetchPosts()
    },
    watch: {
-      // page() {
-      //    this.fetchPosts()
-      // },
+      page() {
+         this.fetchPosts()
+      },
    },
    computed: {
       sortedPosts() {
